@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Idemudia Praise(Innov8iveMind) – Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP + Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card: rgba(255,255,255,0.05);
+      --text: #e0e0e0;
+      --accent: #00d9ff;
+      --accent-dark: #00a3cc;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent); text-decoration: none; }
+
+    /* ===== HERO ===== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      filter: blur(80px);
+      transform: scale(1.2);
+    }
+    .hero-content {
+      text-align: center;
+      z-index: 2;
+      max-width: 800px;
+      padding: 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      margin-bottom: .5rem;
+      background: linear-gradient(90deg, var(--accent), #fff);
+      -webkit-text-fill-color: transparent;
+    }
+    .typed { font-weight: 400; font-size: 1.2rem; color: #aaa; }
+    .hero .btn {
+      margin-top: 2rem;
+      display: inline-block;
+      padding: .8rem 2rem;
+      background: var(--accent);
+      color: #000;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .hero .btn:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,217,255,.3); }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,.7);
+    }
+    .logo { font-weight: 700; font-size: 1.5rem; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { position: relative; }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0; height: 2px;
+      bottom: -6px; left: 0;
+      background: var(--accent);
+      transition: width .3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ===== SECTION ===== */
+    section { padding: 5rem 5%; }
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      width: 80px; height: 4px;
+      background: var(--accent);
+      display: block;
+      margin: 1rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-img {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,.4);
+    }
+    .about-img img { width: 100%; display: block; }
+    .about-text { line-height: 1.8; }
+
+    /* ===== PROJECTS ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 1rem;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.1);
+      transition: transform .4s, box-shadow .4s;
+    }
+    .card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,217,255,.15); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-body { padding: 1.5rem; }
+    .card h3 { margin-bottom: .5rem; }
+    .card .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+    .card .tag {
+      background: rgba(0,217,255,.15);
+      color: var(--accent);
+      font-size: .75rem;
+      padding: .2rem .6rem;
+      border-radius: 4px;
+    }
+    .card .links { margin-top: 1rem; display: flex; gap: 1rem; }
+    .card .links a { font-weight: 500; }
+
+    /* ===== CONTACT ===== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .contact-card {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .contact-card i { font-size: 2rem; color: var(--accent); margin-bottom: .8rem; }
+    .contact-card a { display: block; margin-top: .5rem; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(0,0,0,.4);
+      font-size: .9rem;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      nav { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Idemudia Praise (Innov8iveMind)</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1>Hi, I’m <span id="typed"></span></h1>
+      <p class="typed">Content creator,Creative Developer & Designer</p>
+      <a href="#projects" class="btn">View My Work</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-img">
+       <img src="picture.jpg" alt="Idemudia Praise" width="180" height="600" style="border-radius: 50%;"><alt="Your photo">
+      </div>
+      <div class="about-text">
+        <p>
+          I’m a passionate full-stack developer with a love for clean UI, performant code, and pixel-perfect animations.
+          I turn ideas into interactive experiences using modern web technologies.
+        </p>
+        <p style="margin-top:1rem;">
+          <strong>Skills:</strong>  content writer, developer, GSAP, Three.js, Tailwind, Figma, Git.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="projects-grid">
+
+      <!-- ==== PROJECT CARD ==== -->
+      <div class="card">
+        <img src="https://via.placeholder.com/600x400/222233/00d9ff?text=Project+1" alt="">
+        <div class="card-body">
+          <h3>E-Commerce Platform</h3>
+          <p>Full-stack shop built with Next.js, Stripe, and Prisma. Real-time inventory & admin dashboard.</p>
+          <div class="tags">
+            <span class="tag">Next.js</span>
+            <span class="tag">Stripe</span>
+            <span class="tag">Prisma</span>
+          </div>
+          <div class="links">
+            <a href="#" target="_blank">Live Demo</a>
+            <a href="#" target="_blank">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://via.placeholder.com/600x400/222233/00d9ff?text=Project+2" alt="">
+        <div class="card-body">
+          <h3>3D Portfolio</h3>
+          <p>Interactive 3D scene with Three.js & React-Three-Fiber. Scroll-controlled camera paths.</p>
+          <div class="tags">
+            <span class="tag">Three.js</span>
+            <span class="tag">R3F</span>
+            <span class="tag">GSAP</span>
+          </div>
+          <div class="links">
+            <a href="#" target="_blank">Live Demo</a>
+            <a href="#" target="_blank">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://via.placeholder.com/600x400/222233/00d9ff?text=Project+3" alt="">
+        <div class="card-body">
+          <h3>AI SaaS Dashboard</h3>
+          <p>Analytics dashboard with real-time charts, dark mode, and role-based access.</p>
+          <div class="tags">
+            <span class="tag">React</span>
+            <span class="tag">Chart.js</span>
+            <span class="tag">Node</span>
+          </div>
+          <div class="links">
+            <a href="#" target="_blank">Live Demo</a>
+            <a href="#" target="_blank">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <!-- Add more cards as needed -->
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <i>📧</i>
+        <h3>Email</h3>
+        <a href="mailto:">idemudiapraise415@gmail.com</a>
+      </div>
+      <div class="contact-card">
+       <a href="https://www.linkedin.com/in/idemudia-praise-06b892321" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" 
+       alt="LinkedIn" 
+       width="40" 
+       height="40">
+</a>
+    <h3>LinkedIn</h3>
+      </div>
+        <div class="contact-card">
+       <a href="https://github.com/idpraise" target="_blank">
+  <img src="https://images.seeklogo.com/logo-png/30/2/github-logo-png_seeklogo-304612.png" alt="GitHub" width="40" height="40">
+</a>
+    <h3>GitHub</h3>
+      </div>
+        <div class="contact-card">
+        <a href="https://twitter.com/Innov8ivemind" target="_blank">
+  <img src="data:image/png;base64,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" alt="Twitter" width="40" height="40">
+</a>
+    <h3>X</h3>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Your Name. Built with ❤️ and GSAP.
+  </footer>
+
+  <!-- Typed.js for headline -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    // ==== DATA (edit here) ====
+    const yourName = "Idemudia Praise";
+    const typedStrings = ["a Developer", "a Graphics Designer", "a Creator", "Idemudia Praise"];
+    const projects = [ /* you can push more objects if you want */ ];
+
+    // ==== BASIC SETUP ====
+    document.querySelector('.logo').textContent = yourName;
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ==== TYPED HEADLINE ====
+    new Typed('#typed', {
+      strings: typedStrings,
+      typeSpeed: 60,
+      backSpeed: 40,
+      backDelay: 1500,
+      loop: true,
+      showCursor: false
+    });
+
+    // ==== GSAP ANIMATIONS ====
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // Hero parallax background
+    gsap.to('.hero-bg', {
+      yPercent: -30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: '.hero',
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Fade-in sections
+    gsap.utils.toArray('section').forEach(sec => {
+      gsap.from(sec.children, {
+        y: 60,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sec,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // Card hover tilt (optional fun)
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, ease: "power1.out", duration: .4 });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotationX: 0, rotationY: 0, ease: "elastic.out(1,0.3)", duration: .8 });
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        gsap.to(window, {duration: 1, scrollTo: a.getAttribute('href'), ease: "power2.inOut"});
+      });
+    });
+  </script>
+</body>
+</html>
